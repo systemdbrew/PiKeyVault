@@ -1,4 +1,4 @@
-# Automated unRAID Keyfile Deployment via a Raspberry Pi FTP Server
+# Secure unRAID Key Deployment via Raspberry Pi FTP
 
 This guide provides a secure method to automatically deploy an unRAID keyfile during boot using a Raspberry Pi FTP server. This eliminates SSH key complexities while maintaining security through user isolation and read-only access.
 
