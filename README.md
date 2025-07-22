@@ -145,6 +145,5 @@ Keep monitor/keyboard attached to unRAID for first reboot. If automatic retrieva
 - **Update Password**: When changing FTP password, update both:
   1. Raspberry Pi: `sudo passwd ftpkey`
   2. unRAID: `/boot/config/.netrc` file
-- **Keyfile Rotation**: Replace `/home/ftpkey/files/keyfile` on Pi when updating unRAID license
 
 This solution provides a secure, automated keyfile deployment while eliminating SSH key management complexities. The keyfile is only exposed through a restricted FTP user with no shell access, and transfers occur entirely within your local network.
