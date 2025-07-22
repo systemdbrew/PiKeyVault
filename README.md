@@ -1,4 +1,4 @@
-# Automated unRAID Keyfile Deployment via Raspberry Pi FTP
+# Automated unRAID Keyfile Deployment via a Raspberry Pi FTP Server
 
 This guide provides a secure method to automatically deploy an unRAID keyfile during boot using a Raspberry Pi FTP server. This eliminates SSH key complexities while maintaining security through user isolation and read-only access.
 
@@ -30,7 +30,7 @@ allow_writeable_chroot=YES
 
 ### Create Dedicated FTP User
 ```bash
-sudo adduser --gecos "" --disabled-password ftpkey
+sudo adduser --gecos "FTP" ftpkey
 sudo mkdir /home/ftpkey/files
 sudo chown ftpkey:ftpkey /home/ftpkey/files
 ```
@@ -56,10 +56,10 @@ nano /boot/config/go
 Add this before `/usr/local/sbin/emhttp &`:
 ```bash
 # Wait for network and Pi to be ready
-until ping -c1 192.168.1.100 &>/dev/null; do sleep 2; done
+until ping -c1 <Your-Pi-IP> &>/dev/null; do sleep 2; done
 
 # Download keyfile via FTP
-curl -s --netrc-file /boot/config/.netrc -o /root/keyfile "ftp://192.168.1.100/files/keyfile"
+curl -s --netrc-file /boot/config/.netrc -o /root/keyfile "ftp://<Your-Pi-IP>/files/keyfile"
 
 # Set permissions
 chmod 600 /root/keyfile
@@ -71,7 +71,7 @@ nano /boot/config/.netrc
 ```
 Add these lines (replace with your Pi's IP and password):
 ```
-machine 192.168.1.100
+machine <Your-Pi-IP>
 login ftpkey
 password YOUR_SECURE_PASSWORD
 ```
@@ -86,14 +86,14 @@ chmod 600 /boot/config/.netrc
 ### Test Connectivity
 From unRAID console:
 ```bash
-ping 192.168.1.100  # Verify Pi reachability
-curl -v --netrc-file /boot/config/.netrc -o /tmp/testfile "ftp://192.168.1.100/files/keyfile"
+ping <Your-Pi-IP>  # Verify Pi reachability
+curl -v --netrc-file /boot/config/.netrc -o /tmp/testfile "ftp://<Your-Pi-IP>/files/keyfile"
 ```
 
 ### Test FTP Server
 From any network device:
 ```bash
-curl -v ftp://192.168.1.100/files/keyfile -u ftpkey
+curl -v ftp://<Your-Pi-IP>/files/keyfile -u ftpkey
 ```
 
 ## Step 4: Reboot and Validate
@@ -129,7 +129,7 @@ sudo tail -f /var/log/vsftpd.log
    ```
 3. **FTP Connection Problems**: Test basic FTP access:
    ```bash
-   ftp 192.168.1.100
+   ftp <Your-Pi-IP>
    (login with ftpkey credentials)
    ```
 
@@ -137,7 +137,7 @@ sudo tail -f /var/log/vsftpd.log
 Keep monitor/keyboard attached to unRAID for first reboot. If automatic retrieval fails:
 1. Manually download keyfile:
    ```bash
-   curl -s --netrc-file /boot/config/.netrc -o /root/keyfile "ftp://192.168.1.100/files/keyfile"
+   curl -s --netrc-file /boot/config/.netrc -o /root/keyfile "ftp://<Your-Pi-IP>/files/keyfile"
    ```
 2. Start array manually
 
