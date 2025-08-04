@@ -3,7 +3,7 @@
 This guide provides a secure method to automatically deploy an unRAID keyfile during boot using a Raspberry Pi FTP server. This eliminates SSH key complexities while maintaining security through user isolation and read-only access.
 
 ## Prerequisites
-- Raspberry Pi (any model) on same network as unRAID
+- Raspberry Pi (any model) on same network as unRAID (Needs to be able to communicate with eachother)
 - Basic Linux command line knowledge
 - unRAID USB boot drive accessible
 
