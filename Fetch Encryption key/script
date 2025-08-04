@@ -1,9 +1,9 @@
 #!/bin/bash
 # Wait for Pi to be ready
-until ping -c1 10.0.20.4 &>/dev/null; do sleep 2; done
+until ping -c1 <Your-Pi-IP> &>/dev/null; do sleep 2; done
 
 # Download keyfile using .netrc credentials
-curl -s --netrc-file /boot/config/.netrc -o /root/keyfile "ftp://10.0.20.4/files/keyfile"
+curl -s --netrc-file /boot/config/.netrc -o /root/keyfile "ftp://<Your-Pi-IP>/files/keyfile"
 
 # Set permissions
 chmod 600 /root/keyfile
